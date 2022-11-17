@@ -130,12 +130,14 @@ bool Manager::BTLOAD()
 		while (getline(ssrs, temp, '\t')) {
 			FPset.insert(temp);			
 		}
-//		cout << key << " ";
-//		set<string>::iterator iter;
-//		for (iter = FPset.begin(); iter != FPset.end(); iter++) {
-//			cout << iter->data() << " ";
-//		}
-//		cout << endl;
+		//
+		cout << key << " ";
+		set<string>::iterator iter;
+		for (iter = FPset.begin(); iter != FPset.end(); iter++) {
+			cout << iter->data() << " ";
+		}
+		cout << endl;
+		//
 		bptree->Insert(key, FPset);
 		FPset.clear();
 	}	

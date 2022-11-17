@@ -13,7 +13,8 @@ void FPGrowth::createFPtree(FPNode* root, HeaderTable* table, list<pair<int,stri
 		if (iter->first < threshold)
 			continue;
 		else {
-			if (find_child = curr->getChildrenNode(iter->second)) { // find child with same item
+			find_child = curr->getChildrenNode(iter->second);
+			if (find_child) { // find child with same item
 				find_child->updateFrequency(1);
 				curr = find_child;
 				continue;

@@ -42,7 +42,7 @@ public:
 	HeaderTable* getHeaderTable() { return table; }
 
 	bool printList();
-	bool descendingList() {	table->descendingIndexTable(); } 
+	void descendingList() {	table->descendingIndexTable(); } 
 	bool printTree();
 	void saveFrequentPatterns();
 
