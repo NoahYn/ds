@@ -1,0 +1,8 @@
+6	burgers	cola
+2	burgers	soup
+4	chicken	beer	cola
+5	chicken	cola
+3	eggs	noodle	soup
+4	eggs	soup
+4	eggs	water
+7	water	tissue

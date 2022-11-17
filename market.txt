@@ -1,0 +1,20 @@
+mineral water	milk	energy bar	whole wheat rice	green tea
+turkey	fresh tuna	tomatoes	spaghetti	mineral water	black tea	salmon	eggs	chicken	extra dark chocolate
+meatballs	milk	honey	french fries	protein bar
+red wine	shrimp	pasta	pepper	eggs	chocolate	shampoo	soup
+spaghetti	mineral water	ham	body spray	pancakes	green tea
+burgers	grated cheese	shrimp	pasta	avocado	honey	white wine	toothpaste
+parmesan cheese	spaghetti	soup	avocado	milk	fresh bread
+ground beef	spaghetti	mineral water	milk	energy bar	black tea	salmon	frozen smoothie	escalope
+mineral water	eggs	chicken	chocolate	french fries	soup
+fresh tuna	frozen vegetables	spaghetti	mineral water	honey	whole wheat rice	frozen smoothie	escalope	soup
+soup	avocado	french fries	hot dogs	brownies	body spray	pancakes	green tea
+spaghetti	chocolate	brownies	white wine	green tea
+soup	chicken	gums	soda	body spray	energy drink	green tea
+soup	bug spray	shallot	protein bar	green tea
+grated cheese	ground beef	spaghetti	mineral water	white wine
+burgers	spaghetti	milk	french fries	green tea	soup
+burgers	almonds	eggs	french fries	cookies	green tea	soup
+frozen vegetables	whole wheat pasta	ground beef	spaghetti	chocolate	green tea	soup
+turkey	burgers	ground beef	chocolate	soup	almonds	eggs	hot dogs	cottage cheese
+soup	energy bar	pet food	carrots	protein bar
