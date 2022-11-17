@@ -61,14 +61,46 @@ BpTreeNode* BpTree::searchDataNode(int key) {
 	return pCur;
 }
 
-void BpTree::splitDataNode(BpTreeNode* pDataNode) {
-	if (excessIndexNode(pDataNode)) {
-//		splitIndexNode();
+void BpTree::splitDataNode(BpTreeNode* pDataNode) { // setting parent, mostleftchild, next, prev
+	int target = (order - 1)/2; // numbering position from 0, not 1
+	map<int,FrequentPatternNode*> *mapData = pDataNode->getDataMap();
+	map<int,FrequentPatternNode*>::iterator iter = mapData->begin();
+	BpTreeDataNode* newDataNode = new BpTreeDataNode;
+
+	while (target-- > 0) {
+		newDataNode->insertDataMap(iter->first, iter->second);
+		pDataNode->deleteMap(iter->first);
+		iter++;
 	}
-//	pDataNode->setMostLeftChild();
+	newDataNode->setNext(pDataNode);
+	pDataNode->setPrev(newDataNode);
+
+	BpTreeIndexNode* Index = pDataNode->getParent();
+	if (Index) { // if Index already exist
+		Index->insertIndexMap(iter->first, pDataNode);
+		Index->setMostLeftChild(newDataNode);
+	}
+	else { // need new index
+		Index = new BpTreeIndexNode;
+	}
+	pDataNode->setParent(Index);
+	newDataNode->setParent(Index);
+
+	if (excessIndexNode(pDataNode)) {
+		splitIndexNode(Index);
+	}
 }
+
 void BpTree::splitIndexNode(BpTreeNode* pIndexNode) {
-	
+	int target = (order - 1)/2;
+	map<int,BpTreeNode*> *mapIndex = pIndexNode->getIndexMap();
+	map<int,BpTreeNode*>::iterator iter = mapIndex->begin();
+	BpTreeIndexNode* newIndexNode = new BpTreeIndexNode;
+
+	while (target-- > 0) {
+		new
+	}
+
 }
 
 bool BpTree::excessDataNode(BpTreeNode* pDataNode) {
@@ -79,7 +111,6 @@ bool BpTree::excessIndexNode(BpTreeNode* pIndexNode) {
 	if (pIndexNode->getIndexMap()->size() > order - 1)return true;//order is equal to the number of elements 
 	else return false;
 }
-
 
 bool BpTree::printConfidence(string item, double item_frequency, double min_confidence)
 {
