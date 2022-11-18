@@ -2,6 +2,7 @@
 #define _BpTreeDataNode_H_
 
 #include "BpTreeNode.h"
+
 class BpTreeDataNode : public BpTreeNode
 {
 private:
@@ -26,7 +27,7 @@ public:
 	void deleteMap(int n) {
 		mapData.erase(n);
 	}
-	map<int, FrequentPatternNode*>* getDataMap() { return &mapData; }
+	virtual map<int, FrequentPatternNode*>* getDataMap() { return &mapData; }
 };
 
 #endif

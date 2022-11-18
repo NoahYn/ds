@@ -2,7 +2,7 @@
 #define _BPTREEINDEXNODE_H_
 
 #include "BpTreeNode.h"
-//template <class T>
+
 class BpTreeIndexNode : public BpTreeNode {
 private:
 	map <int, BpTreeNode*> mapIndex;
@@ -18,7 +18,7 @@ public:
 		mapIndex.erase(n);
 	}
 
-	map <int, BpTreeNode*>* getIndexMap() { return &mapIndex; }
+	virtual map <int, BpTreeNode*>* getIndexMap() { return &mapIndex; }
 
 };
 

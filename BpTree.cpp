@@ -4,14 +4,14 @@ bool BpTree::Insert(int key, set<string> set) {
 	
 	FrequentPatternNode* fpNode;
 	if (root == NULL) { // first routine
-		root = new BpTreeNode;
+		root = new BpTreeDataNode;
 		fpNode = new FrequentPatternNode;
 		fpNode->InsertList(set);
 		root->insertDataMap(key, fpNode);
 		return true;
 	}
 
-	BpTreeNode* search = searchDataNode(key);
+	BpTreeDataNode* search = searchDataNode(key);
 	map<int,FrequentPatternNode*> *mapData = search->getDataMap();
 	map<int,FrequentPatternNode*>::iterator iter = mapData->find(key);
 
@@ -32,41 +32,34 @@ bool BpTree::Insert(int key, set<string> set) {
 	return true;
 }
 
-BpTreeNode* BpTree::searchDataNode(int key) {
-	
-	BpTreeNode* pCur = root;
-	map<int,BpTreeNode*> *mapIndex = pCur->getIndexMap();
-	map<int,BpTreeNode*>::iterator iter;
-	int mostLeft;
+BpTreeDataNode* BpTree::searchDataNode(int key) {
+	if (typeid(*root) == typeid(BpTreeIndexNode)) {
+		BpTreeNode* pCur = root;
+		map<int,BpTreeNode*> *mapIndex = dynamic_cast<BpTreeIndexNode*>(pCur)->getIndexMap();
+		map<int,BpTreeNode*>::iterator iter;
+		int mostLeft;
 
-
-
-
-// segfault in while condition
-
-
-
-	while ((cout << "Y") && !mapIndex->empty()) {
-		
-		mostLeft = 1;
-		for (iter = mapIndex->begin(); iter != mapIndex->end(); iter++) {
-			if (key < iter->first) {
-				break;
+		while (mapIndex) {
+			mostLeft = 1;
+			for (iter = mapIndex->begin(); iter != mapIndex->end(); iter++) {
+				if (key < iter->first) {
+					break;
+				}
+				mostLeft = 0;
 			}
-			mostLeft = 0;
+			if (mostLeft == 1) {
+				pCur = pCur->getMostLeftChild();
+				mapIndex = pCur->getIndexMap();
+			}
+			else {
+				iter--;
+				pCur = iter->second;
+				mapIndex = pCur->getIndexMap();
+			}
 		}
-		if (mostLeft == 1) {
-			pCur = pCur->getMostLeftChild();
-			mapIndex = pCur->getIndexMap();
-		}
-		else {
-			iter--;
-			pCur = iter->second;
-			mapIndex = pCur->getIndexMap();
-		}
-	}
-
-	return pCur;
+		return dynamic_cast<BpTreeDataNode*>(pCur);
+	}	
+	return dynamic_cast<BpTreeDataNode*>(root);
 }
 
 void BpTree::splitDataNode(BpTreeNode* pDataNode) { // setting parent, mostleftchild, next, prev
@@ -91,6 +84,10 @@ void BpTree::splitDataNode(BpTreeNode* pDataNode) { // setting parent, mostleftc
 	Index->setMostLeftChild(newDataNode);
 	pDataNode->setParent(Index);
 	newDataNode->setParent(Index);
+	if (pDataNode == root) {
+		root = new BpTreeIndexNode;
+		root = Index;		
+	}
 
 	if (excessIndexNode(Index)) 
 		splitIndexNode(Index);
@@ -117,6 +114,10 @@ void BpTree::splitIndexNode(BpTreeNode* pIndexNode) {
 	Index->setMostLeftChild(newIndexNode);
 	pIndexNode->setParent(Index);
 	newIndexNode->setParent(Index);
+
+	if (pIndexNode == root) {
+		root = Index;
+	}
 
 	if (excessIndexNode(Index))
 		splitIndexNode(Index);
@@ -158,3 +159,16 @@ void BpTree::printFrequentPatterns(set<string> pFrequentPattern) {
 		*flog << ", ";
 	}
 }
+/*map<int, BpTreeNode*>* BpTreeNode::getIndexMap() { 
+	cout << "cast!";
+	BpTreeIndexNode* indexNode = dynamic_cast<BpTreeIndexNode*>(this);
+	map<int, BpTreeNode*>* mapIndex = indexNode->getIndexMap();
+	return mapIndex; 
+}
+
+map<int, FrequentPatternNode*>* BpTreeNode::getDataMap() { 
+	cout <<"cast!";
+	BpTreeDataNode* dataNode = dynamic_cast<BpTreeDataNode*>(this);
+	map<int, FrequentPatternNode*>* mapData = dataNode->getDataMap();
+	return mapData; 
+}*/

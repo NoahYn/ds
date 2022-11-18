@@ -1,6 +1,7 @@
 #pragma once
 #include "FrequentPatternNode.h"
 #include "FPNode.h"
+
 class BpTreeNode
 {
 private:
@@ -32,6 +33,6 @@ public:
 	virtual void deleteMap(int n) {}
 
 	virtual map<int, BpTreeNode*>* getIndexMap() { return {}; }
-	virtual map<int, FrequentPatternNode*>* getDataMap() { return {}; }
-
+	virtual map<int, FrequentPatternNode*>* getDataMap() {return {}; } 
 };
+
