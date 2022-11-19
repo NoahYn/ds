@@ -1,9 +1,9 @@
 #pragma once
-#include "HeaderTable.h"
 #include <fstream>
-#include <iostream>
 #include <vector>
 #include <set>
+
+#include "HeaderTable.h"
 
 class FPGrowth
 {

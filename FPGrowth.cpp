@@ -47,9 +47,9 @@ void FPGrowth::connectNode(HeaderTable* table, string item, FPNode* node) {
 }
 
 bool FPGrowth::contains_single_path(FPNode* pNode) {
-	if (pNode->getChildren().size() == 0) return true;
-	else if (pNode->getChildren().size() > 1) return false;
-	return contains_single_path(pNode->getChildren().begin()->second);
+	if (pNode->getChildren()->size() == 0) return true;
+	else if (pNode->getChildren()->size() > 1) return false;
+	return contains_single_path(pNode->getChildren()->begin()->second);
 }
 
 map<set<string>, int> FPGrowth::getFrequentPatterns(HeaderTable* pTable, FPNode* pTree) {
@@ -75,7 +75,6 @@ bool FPGrowth::printList() {
 	list<pair<int,string>> *idx_table = table->getindexTable();
 	list<pair<int,string>>::iterator iter;
 	for (iter = idx_table->begin(); iter != idx_table->end(); iter++) {
-		cout << iter->second << " " << iter->first << endl;
 		*flog << iter->second << " " << iter->first << endl;
 	}
 	return true;
@@ -89,7 +88,7 @@ bool FPGrowth::printTree() {
 	FPNode* curr;
 	FPNode* curr_p;
 	FPNode* parent;
-	map<string, FPNode*> children;
+	map<string, FPNode*> *children;
 	map<string, FPNode*>::iterator iter_item;
 	string item;
 
@@ -104,12 +103,12 @@ bool FPGrowth::printTree() {
 			while (curr_p != fpTree) { // move to parent
 				parent = curr_p->getParent();
 				children = parent->getChildren();
-				iter_item = children.begin();
+				iter_item = children->begin();
 				if (iter_item->second == curr_p) {
 					item = iter_item->first;
 				}
 				else {
-					while (iter_item++ != children.end()) {
+					while (iter_item++ != children->end()) {
 						if (iter_item->second == curr_p) {
 							item = iter_item->first;
 							break;

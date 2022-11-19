@@ -1,9 +1,6 @@
 #pragma once
 #include <iostream>
-#include <string>
-#include <cstring>
 #include <map>
-#include <cmath>
 
 using namespace std;
 class FPNode
@@ -25,7 +22,7 @@ public:
 	FPNode* getParent() { return parent; }
 	FPNode* getNext() { return next; }
 	FPNode* getChildrenNode(string item);
-	map<string, FPNode*> getChildren() { return children; }
+	map<string, FPNode*>* getChildren() { return &children; }
 };
 
 

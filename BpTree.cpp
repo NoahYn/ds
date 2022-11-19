@@ -71,7 +71,7 @@ void BpTree::splitDataNode(BpTreeNode* pDataNode) { // setting parent, mostleftc
 	while (target-- > 0) {
 		newDataNode->insertDataMap(iter->first, iter->second);
 		pDataNode->deleteMap(iter->first);
-		iter++;
+		iter = mapData->begin();
 	}
 	newDataNode->setNext(pDataNode);
 	pDataNode->setPrev(newDataNode);
@@ -102,7 +102,7 @@ void BpTree::splitIndexNode(BpTreeNode* pIndexNode) {
 	while (target-- > 0) {
 		newIndexNode->insertIndexMap(iter->first, iter->second);
 		pIndexNode->deleteMap(iter->first);
-		iter++;
+		iter = mapIndex->begin();
 	}
 
 	BpTreeNode* Index = pIndexNode->getParent();
@@ -110,10 +110,11 @@ void BpTree::splitIndexNode(BpTreeNode* pIndexNode) {
 		Index = new BpTreeIndexNode;
 	}
 	Index->insertIndexMap(iter->first, pIndexNode);
-	pIndexNode->deleteMap(iter->first);
 	Index->setMostLeftChild(newIndexNode);
+	pIndexNode->deleteMap(iter->first);
 	pIndexNode->setParent(Index);
 	newIndexNode->setParent(Index);
+	newIndexNode->setMostLeftChild(pIndexNode->getMostLeftChild());
 
 	if (pIndexNode == root) {
 		root = Index;
@@ -139,6 +140,42 @@ bool BpTree::printConfidence(string item, double item_frequency, double min_conf
 }
 bool BpTree::printFrequency(string item, int min_frequency)//print winratio in ascending order
 {
+	BpTreeNode* curr = root;	
+	while (curr->getMostLeftChild()) {
+		curr = curr->getMostLeftChild(); 
+	}	// now curr is most left data node
+
+	map<int,FrequentPatternNode*> *dataMap;
+	map<int,FrequentPatternNode*>::iterator iter_m; // iterator to traverse mapData
+	FrequentPatternNode *fNode;
+	multimap<int,set<string>> *fList;
+	multimap<int,set<string>>::iterator iter_l; // traverse flist
+	set<string> fSet;
+	set<string>::iterator iter_s; // traverse fset
+	while (curr) {
+		dataMap = curr->getDataMap();		
+		for (iter_m = dataMap->begin(); iter_m != dataMap->end(); iter_m++) {
+			if (iter_m->first < min_frequency) { // frequency is less than min
+				continue;
+			}
+			fNode = iter_m->second;
+			fList = fNode->getList();
+			for (iter_l = fList->begin(); iter_l != fList->end(); iter_l++) {
+				fSet = iter_l->second;
+				if (fSet.find(item) == fSet.end()) { // fail to find item
+					continue;
+				}
+				iter_s = fSet.begin();
+				cout << "{" << *iter_s;
+				iter_s++;
+				for (iter_s; iter_s != fSet.end(); iter_s++) {
+					cout << ", " << *iter_s;
+				}
+				cout << "} " << iter_m->first << endl;
+			}
+		}
+		curr = curr->getNext();
+	}
 
 	return true;
 }

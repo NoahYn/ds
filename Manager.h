@@ -1,15 +1,11 @@
 #pragma once
-#include "FPGrowth.h"
-#include "BpTree.h"
-#include <iostream>
-#include <fstream>
 #include <string>
 #include <sstream>
-#include <vector>
-#include <stdlib.h>
+
+#include "FPGrowth.h"
+#include "BpTree.h"
 
 using namespace std;
-
 
 class Manager
 {

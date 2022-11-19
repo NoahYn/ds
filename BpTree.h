@@ -1,10 +1,10 @@
 #ifndef _BpTree_H_
 #define _BpTree_H_
 
+#include <fstream>
+
 #include "BpTreeDataNode.h"
 #include "BpTreeIndexNode.h"
-#include <fstream>
-#include <iostream>
 
 class BpTree {
 private:

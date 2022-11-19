@@ -67,14 +67,12 @@ bool Manager::LOAD()
 	vector<list<pair<int, string>>> itemsets;
 	list<pair<int, string>> itemset; 
 	pair<int, string> item; 
-	string temp;
 	
 	while (!market.eof()) // extract data from market.txt to itemsets, 
 	{
-		getline(market, temp);
-		stringstream ssis(temp);
-		while (getline(ssis, temp, '\t')) {
-			item.second = temp;
+		getline(market, item.second);
+		stringstream ssis(item.second);
+		while (getline(ssis, item.second, '\t')) {
 			fpgrowth->createTable(item.second, 1);
 			itemset.push_back(item);
 		}
@@ -131,19 +129,17 @@ bool Manager::BTLOAD()
 			FPset.insert(temp);			
 		}
 		//
-		cout << key << " ";
 		set<string>::iterator iter;
 		for (iter = FPset.begin(); iter != FPset.end(); iter++) {
-			cout << iter->data() << " ";
+			cout << *iter << " ";
 		}
-		cout << endl;
+		cout << key << "\n";
 		//
 		bptree->Insert(key, FPset);
 		FPset.clear();
 	}	
 	
-
-
+	
 	printSuccessCode();
 	return true;
 }
@@ -170,18 +166,22 @@ bool Manager::PRINT_FPTREE() {
 		printErrorCode(400);
 		return false;
 	}
-	else {
-		cout << "{StandardItem,Frequency} {Path_Item,Frequency}\n";
-		fpgrowth->printTree();
-		cout << "===============================\n";
-		return true;
-	}
+	cout << "{StandardItem,Frequency} {Path_Item,Frequency}\n";
+	fpgrowth->printTree();
+	cout << "===============================\n";
+	return true;
 }
 
 bool Manager::PRINT_BPTREE(string item, int min_frequency) {
-	
-
-	cout << "PRINT_BPTREE " << item << " " << min_frequency << endl;
+	cout << "========PRINT_BPTREE=========\n";
+	flog << "========PRINT_BPTREE=========\n";
+	if (0) {
+		printErrorCode(500);
+		return false;
+	}
+	cout << "FrequentPattern\tFrequency\n";
+	bptree->printFrequency(item, min_frequency);
+	cout << "===============================\n";
 	return true;
 }
 
