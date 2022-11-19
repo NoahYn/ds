@@ -95,5 +95,5 @@
 4	soup	spaghetti
 2	spaghetti	white wine
 7	milk	eggs
-8	eggs	soup
+8	eggs	soup	milk
 
