@@ -72,7 +72,7 @@
 2	green tea	milk
 2	green tea	mineral water
 2	green tea	pancakes
-6	green tea	soup
+6	green tea	soup	eggs
 2	green tea	soup	spaghetti
 4	green tea	spaghetti
 2	ground beef	mineral water
@@ -87,10 +87,13 @@
 2	mineral water	salmon
 2	mineral water	salmon	spaghetti
 2	mineral water	soup
+5	mineral water	spaghetti	eggs
 2	mineral water	whole wheat rice
 2	pasta	shrimp
 2	protein bar	soup
 2	salmon	spaghetti
 4	soup	spaghetti
 2	spaghetti	white wine
+7	milk	eggs
+8	eggs	soup
 

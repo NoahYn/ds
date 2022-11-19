@@ -78,18 +78,37 @@ void BpTree::splitDataNode(BpTreeNode* pDataNode) { // setting parent, mostleftc
 	BpTreeNode* Index = pDataNode->getParent();
 	if (!Index) { // need new index node
 		Index = new BpTreeIndexNode;
-	}
-	Index->insertIndexMap(iter->first, pDataNode);
-	Index->setMostLeftChild(newDataNode);
-	pDataNode->setParent(Index);
-	newDataNode->setParent(Index);
-	if (pDataNode == root) {
-		root = new BpTreeIndexNode;
-		root = Index;		
-	}
+		Index->insertIndexMap(iter->first, pDataNode);
+		Index->setMostLeftChild(newDataNode);
+		pDataNode->setParent(Index);
+		newDataNode->setParent(Index);
 
-//	if (excessIndexNode(Index)) 
-//		splitIndexNode(Index);
+		if (pDataNode == root) {	
+			root = new BpTreeIndexNode;
+			root = Index;		
+		}
+	}
+	else { // use exist index node
+		map<int,BpTreeNode*> *mapIndex = Index->getIndexMap();
+		Index->insertIndexMap(iter->first, pDataNode);
+		map<int,BpTreeNode*>::iterator iter = mapIndex->find(iter->first); // find IndexNode that is inserted in upper line
+		iter--; // point to previous node
+		iter->second = newDataNode; 
+		newDataNode->setParent(Index);
+		if (iter == mapIndex->begin()) {
+			newDataNode->setPrev(Index->getMostLeftChild());
+			Index->getMostLeftChild()->setNext(newDataNode);
+		}
+		else {
+			iter--;
+			newDataNode->setPrev(iter->second);
+			iter->second->setNext(newDataNode);
+		}
+
+	//	newDataNode->setPrev();
+		if (excessIndexNode(Index)) 
+			splitIndexNode(Index);
+	}
 }
 
 void BpTree::splitIndexNode(BpTreeNode* pIndexNode) {
@@ -109,9 +128,9 @@ void BpTree::splitIndexNode(BpTreeNode* pIndexNode) {
 		Index = new BpTreeIndexNode;
 	}
 	Index->insertIndexMap(iter->first, pIndexNode);
-	Index->setMostLeftChild(newIndexNode);
 	pIndexNode->deleteMap(iter->first);
 	pIndexNode->setParent(Index);
+	Index->setMostLeftChild(newIndexNode);
 	newIndexNode->setParent(Index);
 	newIndexNode->setMostLeftChild(pIndexNode->getMostLeftChild());
 
@@ -119,8 +138,8 @@ void BpTree::splitIndexNode(BpTreeNode* pIndexNode) {
 		root = Index;
 	}
 
-//	if (excessIndexNode(Index))
-//		splitIndexNode(Index);
+	if (excessIndexNode(Index))
+		splitIndexNode(Index);
 }
 
 bool BpTree::excessDataNode(BpTreeNode* pDataNode) {

@@ -206,14 +206,12 @@ bool Manager::PRINT_RANGE(string item, int start, int end) {
 	cout << "========PRINT_RANGE========\n";
 	flog << "========PRINT_RANGE========\n";
 	if (0) {
-		printErrorCode(600);
+		printErrorCode(700);
 		return false;
 	}
-	bptree->printRange(item, start, end);
 	cout << "FrequentPattern\tFrequency\n";
 	flog << "FrequentPattern\tFrequency\n";
-	
-	
+	bptree->printRange(item, start, end);	
 	cout << "===========================\n";
 	flog << "===========================\n";
 	return true;
