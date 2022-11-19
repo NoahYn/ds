@@ -87,7 +87,6 @@
 2	mineral water	salmon
 2	mineral water	salmon	spaghetti
 2	mineral water	soup
-5	mineral water	spaghetti
 2	mineral water	whole wheat rice
 2	pasta	shrimp
 2	protein bar	soup

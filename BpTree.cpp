@@ -26,9 +26,8 @@ bool BpTree::Insert(int key, set<string> set) {
 	fpNode->InsertList(set);
 	search->insertDataMap(key, fpNode);
 
-	if (excessDataNode(search)) {
-		splitDataNode(search);
-	}
+//	if (excessDataNode(search)) {
+//		splitDataNode(search);
 	return true;
 }
 
@@ -89,8 +88,8 @@ void BpTree::splitDataNode(BpTreeNode* pDataNode) { // setting parent, mostleftc
 		root = Index;		
 	}
 
-	if (excessIndexNode(Index)) 
-		splitIndexNode(Index);
+//	if (excessIndexNode(Index)) 
+//		splitIndexNode(Index);
 }
 
 void BpTree::splitIndexNode(BpTreeNode* pIndexNode) {
@@ -120,8 +119,8 @@ void BpTree::splitIndexNode(BpTreeNode* pIndexNode) {
 		root = Index;
 	}
 
-	if (excessIndexNode(Index))
-		splitIndexNode(Index);
+//	if (excessIndexNode(Index))
+//		splitIndexNode(Index);
 }
 
 bool BpTree::excessDataNode(BpTreeNode* pDataNode) {
@@ -135,9 +134,51 @@ bool BpTree::excessIndexNode(BpTreeNode* pIndexNode) {
 
 bool BpTree::printConfidence(string item, double item_frequency, double min_confidence)
 {
+	int min_frequency = item_frequency * min_confidence;
+	BpTreeNode* curr = root;	
+	while (curr->getMostLeftChild()) {
+		curr = curr->getMostLeftChild(); 
+	}	// now curr is most left data node
+
+	map<int,FrequentPatternNode*> *dataMap;
+	map<int,FrequentPatternNode*>::iterator iter_m; // iterator to traverse mapData
+	FrequentPatternNode *fNode;
+	multimap<int,set<string>> *fList;
+	multimap<int,set<string>>::iterator iter_l; // traverse flist
+	set<string> fSet;
+	set<string>::iterator iter_s; // traverse fset
+
+	while (curr) {
+		dataMap = curr->getDataMap();		
+		for (iter_m = dataMap->begin(); iter_m != dataMap->end(); iter_m++) {
+			if (iter_m->first < min_frequency) { // frequency is less than min
+				continue;
+			}
+			fNode = iter_m->second;
+			fList = fNode->getList();
+			for (iter_l = fList->begin(); iter_l != fList->end(); iter_l++) {
+				fSet = iter_l->second;
+				if (fSet.find(item) == fSet.end()) { // fail to find item
+					continue;
+				}
+				iter_s = fSet.begin();
+				cout << "{" << *iter_s;
+				iter_s++;
+				for (iter_s; iter_s != fSet.end(); iter_s++) {
+					cout << ", " << *iter_s;
+				}
+				cout.precision(2);
+				cout << "} " << iter_m->first << " " << iter_m->first/item_frequency << endl;
+			}
+		}
+		curr = curr->getNext();
+	}
+
+	return true;
 
 	return true;
 }
+
 bool BpTree::printFrequency(string item, int min_frequency)//print winratio in ascending order
 {
 	BpTreeNode* curr = root;	
@@ -180,9 +221,48 @@ bool BpTree::printFrequency(string item, int min_frequency)//print winratio in a
 	return true;
 }
 bool BpTree::printRange(string item, int min, int max) {
+	BpTreeNode* curr = root;	
+	while (curr->getMostLeftChild()) {
+		curr = curr->getMostLeftChild(); 
+	}	// now curr is most left data node
+
+	map<int,FrequentPatternNode*> *dataMap;
+	map<int,FrequentPatternNode*>::iterator iter_m; // iterator to traverse mapData
+	FrequentPatternNode *fNode;
+	multimap<int,set<string>> *fList;
+	multimap<int,set<string>>::iterator iter_l; // traverse flist
+	set<string> fSet;
+	set<string>::iterator iter_s; // traverse fset
+	while (curr) {
+		dataMap = curr->getDataMap();		
+		for (iter_m = dataMap->begin(); iter_m != dataMap->end(); iter_m++) {
+			if (iter_m->first < min && min <= max) { // frequency is less than min
+				continue;
+			}
+			fNode = iter_m->second;
+			fList = fNode->getList();
+			for (iter_l = fList->begin(); iter_l != fList->end(); iter_l++) {
+				fSet = iter_l->second;
+				if (fSet.find(item) == fSet.end()) { // fail to find item
+					continue;
+				}
+				iter_s = fSet.begin();
+				cout << "{" << *iter_s;
+				iter_s++;
+				for (iter_s; iter_s != fSet.end(); iter_s++) {
+					cout << ", " << *iter_s;
+				}
+				cout << "} " << iter_m->first << endl;
+			}
+			min++;
+		}
+		curr = curr->getNext();
+	}
+
 
 	return true;
 }
+
 void BpTree::printFrequentPatterns(set<string> pFrequentPattern) {
 	*flog << "{";
 	set<string> curPattern = pFrequentPattern;
@@ -196,16 +276,3 @@ void BpTree::printFrequentPatterns(set<string> pFrequentPattern) {
 		*flog << ", ";
 	}
 }
-/*map<int, BpTreeNode*>* BpTreeNode::getIndexMap() { 
-	cout << "cast!";
-	BpTreeIndexNode* indexNode = dynamic_cast<BpTreeIndexNode*>(this);
-	map<int, BpTreeNode*>* mapIndex = indexNode->getIndexMap();
-	return mapIndex; 
-}
-
-map<int, FrequentPatternNode*>* BpTreeNode::getDataMap() { 
-	cout <<"cast!";
-	BpTreeDataNode* dataNode = dynamic_cast<BpTreeDataNode*>(this);
-	map<int, FrequentPatternNode*>* mapData = dataNode->getDataMap();
-	return mapData; 
-}*/

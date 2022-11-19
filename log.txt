@@ -3566,3 +3566,129 @@ Success
 =======================
 
 ========PRINT_BPTREE=========
+==========LOAD=========
+Success
+=======================
+
+==========BTLOAD=========
+Success
+=======================
+
+========PRINT_BPTREE=========
+==========LOAD=========
+Success
+=======================
+
+==========BTLOAD=========
+Success
+=======================
+
+========PRINT_BPTREE=========
+==========LOAD=========
+Success
+=======================
+
+==========BTLOAD=========
+Success
+=======================
+
+========PRINT_BPTREE=========
+==========LOAD=========
+Success
+=======================
+
+==========BTLOAD=========
+Success
+=======================
+
+========PRINT_BPTREE=========
+==========LOAD=========
+Success
+=======================
+
+==========BTLOAD=========
+Success
+=======================
+
+========PRINT_BPTREE=========
+========PRINT_CONFIDENCE========
+FrequentPattern	Frequency	Confidence
+================================
+========PRINT_RANGE========
+FrequentPattern	Frequency
+===========================
+==========LOAD=========
+Success
+=======================
+
+==========BTLOAD=========
+Success
+=======================
+
+========PRINT_BPTREE=========
+========PRINT_CONFIDENCE========
+FrequentPattern	Frequency	Confidence
+================================
+========PRINT_RANGE========
+FrequentPattern	Frequency
+===========================
+==========LOAD=========
+Success
+=======================
+
+==========BTLOAD=========
+Success
+=======================
+
+========PRINT_BPTREE=========
+========PRINT_CONFIDENCE========
+FrequentPattern	Frequency	Confidence
+================================
+========PRINT_RANGE========
+FrequentPattern	Frequency
+===========================
+==========LOAD=========
+Success
+=======================
+
+==========BTLOAD=========
+Success
+=======================
+
+========PRINT_BPTREE=========
+========PRINT_CONFIDENCE========
+FrequentPattern	Frequency	Confidence
+================================
+========PRINT_RANGE========
+FrequentPattern	Frequency
+===========================
+==========LOAD=========
+Success
+=======================
+
+==========BTLOAD=========
+Success
+=======================
+
+========PRINT_BPTREE=========
+========PRINT_CONFIDENCE========
+FrequentPattern	Frequency	Confidence
+================================
+========PRINT_RANGE========
+FrequentPattern	Frequency
+===========================
+==========LOAD=========
+Success
+=======================
+
+==========BTLOAD=========
+Success
+=======================
+
+========PRINT_BPTREE=========
+========PRINT_CONFIDENCE========
+FrequentPattern	Frequency	Confidence
+================================
+========PRINT_RANGE========
+FrequentPattern	Frequency
+===========================

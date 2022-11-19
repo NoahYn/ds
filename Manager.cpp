@@ -187,13 +187,35 @@ bool Manager::PRINT_BPTREE(string item, int min_frequency) {
 
 bool Manager::PRINT_CONFIDENCE(string item, double rate) {
 	// until under . 2 units print
-	cout << "PRINT_CONFIDENCE " << item << " " << rate << endl;
+	cout << "========PRINT_CONFIDENCE========\n";
+	flog << "========PRINT_CONFIDENCE========\n";
+	if (0) {
+		printErrorCode(600);
+		return false;
+	}
+	cout << "FrequentPattern\tFrequency\tConfidence\n";
+	flog << "FrequentPattern\tFrequency\tConfidence\n";
+	int frequency = fpgrowth->getHeaderTable()->find_frequency(item);
+	bptree->printConfidence(item, (double)frequency, rate);
+	cout << "================================\n";
+	flog << "================================\n";
 	return true;
 }
 
 bool Manager::PRINT_RANGE(string item, int start, int end) {
+	cout << "========PRINT_RANGE========\n";
+	flog << "========PRINT_RANGE========\n";
+	if (0) {
+		printErrorCode(600);
+		return false;
+	}
+	bptree->printRange(item, start, end);
+	cout << "FrequentPattern\tFrequency\n";
+	flog << "FrequentPattern\tFrequency\n";
 	
-	cout << "PRINT_RANGE " << start << " " << end << endl;
+	
+	cout << "===========================\n";
+	flog << "===========================\n";
 	return true;
 }
 
