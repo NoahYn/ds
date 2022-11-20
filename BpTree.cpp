@@ -74,6 +74,11 @@ void BpTree::splitDataNode(BpTreeNode* pDataNode) { // setting parent, mostleftc
 		pDataNode->deleteMap(iter->first);
 		iter = mapData->begin();
 	}
+
+	if (pDataNode->getPrev()) {
+		pDataNode->getPrev()->setNext(newDataNode);
+		newDataNode->setPrev(pDataNode->getPrev());
+	}
 	newDataNode->setNext(pDataNode);
 	pDataNode->setPrev(newDataNode);
 
@@ -81,8 +86,8 @@ void BpTree::splitDataNode(BpTreeNode* pDataNode) { // setting parent, mostleftc
 	if (!Index) { // need new index node
 		Index = new BpTreeIndexNode;
 		Index->insertIndexMap(iter->first, pDataNode);
-		Index->setMostLeftChild(newDataNode);
 		pDataNode->setParent(Index);
+		Index->setMostLeftChild(newDataNode);
 		newDataNode->setParent(Index);
 
 		if (pDataNode == root) {	
@@ -91,21 +96,23 @@ void BpTree::splitDataNode(BpTreeNode* pDataNode) { // setting parent, mostleftc
 		}
 	}
 	else { // use exist index node
-		map<int,BpTreeNode*> *mapIndex = Index->getIndexMap();
 		Index->insertIndexMap(iter->first, pDataNode);
+
+		map<int,BpTreeNode*> *mapIndex = Index->getIndexMap();
 		map<int,BpTreeNode*>::iterator iter_i = mapIndex->find(iter->first); // find IndexNode that is inserted in upper line
 		iter_i--; // point to previous node
 		iter_i->second = newDataNode; 
 		newDataNode->setParent(Index);
-		if (iter_i == mapIndex->begin()) {
-			newDataNode->setPrev(Index->getMostLeftChild());
-			Index->getMostLeftChild()->setNext(newDataNode);
-		}
-		else { 
-			iter_i--;
-			newDataNode->setPrev(iter_i->second);
-			iter_i->second->setNext(newDataNode);
-		}
+		
+//		if (iter_i == mapIndex->begin()) {
+//			newDataNode->setPrev(Index->getMostLeftChild());
+//			Index->getMostLeftChild()->setNext(newDataNode);
+//		}
+//		else { 
+//			iter_i--;
+//			newDataNode->setPrev(iter_i->second);
+//			iter_i->second->setNext(newDataNode);
+//		}
 
 		if (excessIndexNode(Index)) 
 			splitIndexNode(Index);
@@ -117,9 +124,14 @@ void BpTree::splitIndexNode(BpTreeNode* pIndexNode) {
 	map<int,BpTreeNode*> *mapIndex = pIndexNode->getIndexMap();
 	map<int,BpTreeNode*>::iterator iter = mapIndex->begin();
 	BpTreeIndexNode* newIndexNode = new BpTreeIndexNode;
+	BpTreeNode* newIndexMostRightChild;
 
+	newIndexNode->setMostLeftChild(pIndexNode->getMostLeftChild());
+	newIndexNode->getMostLeftChild()->setParent(newIndexNode);
 	while (target-- > 0) {
 		newIndexNode->insertIndexMap(iter->first, iter->second);
+		iter->second->setParent(newIndexNode);
+		newIndexMostRightChild = iter->second;
 		pIndexNode->deleteMap(iter->first);
 		iter = mapIndex->begin();
 	}
@@ -127,17 +139,40 @@ void BpTree::splitIndexNode(BpTreeNode* pIndexNode) {
 	BpTreeNode* Index = pIndexNode->getParent();
 	if (!Index) { // need new index node
 		Index = new BpTreeIndexNode;
-	}
-	Index->insertIndexMap(iter->first, pIndexNode);
-	pIndexNode->deleteMap(iter->first);
-	pIndexNode->setParent(Index);
-	Index->setMostLeftChild(newIndexNode);
-	newIndexNode->setParent(Index);
-	newIndexNode->setMostLeftChild(pIndexNode->getMostLeftChild());
 
-	if (pIndexNode == root) {
-		root = Index;
+		Index->setMostLeftChild(newIndexNode);
+		newIndexNode->setParent(Index);
+		
+		pIndexNode->setMostLeftChild(iter->second);
+		newIndexMostRightChild->setNext(iter->second);
+		iter->second->setPrev(newIndexMostRightChild);
+
+		Index->insertIndexMap(iter->first, pIndexNode);
+		pIndexNode->deleteMap(iter->first);
+		pIndexNode->setParent(Index);
+
+		if (pIndexNode == root) {
+			root = Index;
+		}
 	}
+	else { // use exist index node
+		newIndexNode->setParent(Index);
+		map<int,BpTreeNode*> *mapIndex = Index->getIndexMap();
+		map<int,BpTreeNode*>::iterator iter_i = mapIndex->find(iter->first); // find IndexNode that is inserted in upper line
+		
+	}
+
+
+//
+	else { // use exist index node
+		Index->insertIndexMap(iter->first, pDataNode);
+
+		map<int,BpTreeNode*> *mapIndex = Index->getIndexMap();
+		map<int,BpTreeNode*>::iterator iter_i = mapIndex->find(iter->first); // find IndexNode that is inserted in upper line
+		iter_i--; // point to previous node
+		iter_i->second = newDataNode; 
+		newDataNode->setParent(Index);
+	
 
 	if (excessIndexNode(Index))
 		splitIndexNode(Index);
@@ -193,8 +228,6 @@ bool BpTree::printConfidence(string item, double item_frequency, double min_conf
 		}
 		curr = curr->getNext();
 	}
-
-	return true;
 
 	return true;
 }
@@ -256,7 +289,7 @@ bool BpTree::printRange(string item, int min, int max) {
 	while (curr) {
 		dataMap = curr->getDataMap();		
 		for (iter_m = dataMap->begin(); iter_m != dataMap->end(); iter_m++) {
-			if (iter_m->first < min && min <= max) { // frequency is less than min
+			if (iter_m->first != min && min <= max) { // frequency is less than min
 				continue;
 			}
 			fNode = iter_m->second;
@@ -278,7 +311,6 @@ bool BpTree::printRange(string item, int min, int max) {
 		}
 		curr = curr->getNext();
 	}
-
 
 	return true;
 }
