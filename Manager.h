@@ -27,7 +27,10 @@ public:
 
 	~Manager()//destructor
 	{
-		/* You must fill here */
+		delete bptree;
+		delete fpgrowth;
+		fin.close();
+		flog.close();
 	}
 
 	ifstream fin;

@@ -23,7 +23,11 @@ public:
 		this->flog = flog;
 	}
 
-	~FPGrowth();
+	~FPGrowth() { 
+		delete fpTree; 
+		delete table;
+	}
+	
 	void createTable(string item, int frequency) { table->insertTable(item, frequency); }
 	void createFPtree(FPNode* root, HeaderTable* table, list<pair<int,string>> item_array, int frequency);
 	void connectNode(HeaderTable* table, string item, FPNode* node);

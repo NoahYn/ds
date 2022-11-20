@@ -1,10 +1,5 @@
 #include "FPGrowth.h"
 
-
-FPGrowth::~FPGrowth() {
-
-}
-
 void FPGrowth::createFPtree(FPNode* root, HeaderTable* table, list<pair<int,string>> item_array, int frequency) {
 	FPNode* curr = root;
 	FPNode* find_child;
@@ -95,7 +90,7 @@ bool FPGrowth::printTree() {
 	for (iter = idx->begin(); iter != idx->end(); iter++) {
 		if (iter->first < threshold)
 			continue;
-		cout << "{" << iter->second << ", " << iter->first << "}\n";
+		*flog << "{" << iter->second << ", " << iter->first << "}\n";
 		item = iter->second;
 		curr = table->getNode(item);
 		while (curr) { // move to next
@@ -115,10 +110,10 @@ bool FPGrowth::printTree() {
 						}
 					}
 				}
-				cout << "(" << item << ", " << curr_p->getFrequency() << ") ";	
+				*flog << "(" << item << ", " << curr_p->getFrequency() << ") ";	
 				curr_p = parent;
 			}
-			cout << "\n";
+			*flog << "\n";
 			curr = curr->getNext();
 		}
 	}

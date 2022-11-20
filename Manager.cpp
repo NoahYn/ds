@@ -44,17 +44,16 @@ void Manager::run(const char* cmd_txt)
 			}
 			PRINT_RANGE(option[1], stoi(option[2]), stoi(option[3]));
 		}
-	//	else if (cmd == "EXIT")
-	//		~Manager();
+		else if (cmd == "EXIT") {
+			break;
+		}
 	}
 	
-	fin.close();
 	return;
 }
 
 bool Manager::LOAD()
 {
-	cout << "==========LOAD=========\n";
 	flog << "==========LOAD=========\n";
 
 	ifstream market("market.txt"); 
@@ -102,7 +101,6 @@ bool Manager::LOAD()
 
 bool Manager::BTLOAD()
 {
-	cout << "==========BTLOAD=========\n";
 	flog << "==========BTLOAD=========\n";
 
 	ifstream result("result.txt"); 
@@ -128,106 +126,84 @@ bool Manager::BTLOAD()
 		while (getline(ssrs, temp, '\t')) {
 			FPset.insert(temp);			
 		}
-		//
-		set<string>::iterator iter;
-		for (iter = FPset.begin(); iter != FPset.end(); iter++) {
-			cout << *iter << " ";
-		}
-		cout << key << "\n";
-		//
 		bptree->Insert(key, FPset);
 		FPset.clear();
 	}	
-	
 	
 	printSuccessCode();
 	return true;
 }
 
 bool Manager::PRINT_ITEMLIST() { 
-	cout << "========PRINT_ITEMLIST=========\n";
 	flog << "========PRINT_ITEMLIST=========\n";
 	if (!fpgrowth || !fpgrowth->getHeaderTable()) { // header table doesn't exist
 		printErrorCode(300);
 		return false;
 	}
 	else { // header table exist
-		cout << "Item\tFrequency\n";
+		flog << "Item\tFrequency\n";
 		fpgrowth->printList();
-		cout << "===============================\n";
+		flog << "===============================\n\n";
 		return true;
 	}
 }
 
 bool Manager::PRINT_FPTREE() {
-	cout << "========PRINT_FPTREE========\n";
 	flog << "========PRINT_FPTREE========\n";
 	if (!fpgrowth || !fpgrowth->getTree()) { // fp tree doesn't exist
 		printErrorCode(400);
 		return false;
 	}
-	cout << "{StandardItem,Frequency} {Path_Item,Frequency}\n";
+	flog << "{StandardItem,Frequency} {Path_Item,Frequency}\n";
 	fpgrowth->printTree();
-	cout << "===============================\n";
+	flog << "===============================\n";
 	return true;
 }
 
 bool Manager::PRINT_BPTREE(string item, int min_frequency) {
-	cout << "========PRINT_BPTREE=========\n";
 	flog << "========PRINT_BPTREE=========\n";
 	if (0) {
 		printErrorCode(500);
 		return false;
 	}
-	cout << "FrequentPattern\tFrequency\n";
+	flog << "FrequentPattern\tFrequency\n";
 	bptree->printFrequency(item, min_frequency);
-	cout << "===============================\n";
+	flog << "===============================\n\n";
 	return true;
 }
 
 bool Manager::PRINT_CONFIDENCE(string item, double rate) {
-	// until under . 2 units print
-	cout << "========PRINT_CONFIDENCE========\n";
 	flog << "========PRINT_CONFIDENCE========\n";
 	if (0) {
 		printErrorCode(600);
 		return false;
 	}
-	cout << "FrequentPattern\tFrequency\tConfidence\n";
 	flog << "FrequentPattern\tFrequency\tConfidence\n";
 	int frequency = fpgrowth->getHeaderTable()->find_frequency(item);
 	bptree->printConfidence(item, (double)frequency, rate);
-	cout << "================================\n";
-	flog << "================================\n";
+	flog << "================================\n\n";
 	return true;
 }
 
 bool Manager::PRINT_RANGE(string item, int start, int end) {
-	cout << "========PRINT_RANGE========\n";
 	flog << "========PRINT_RANGE========\n";
 	if (0) {
 		printErrorCode(700);
 		return false;
 	}
-	cout << "FrequentPattern\tFrequency\n";
 	flog << "FrequentPattern\tFrequency\n";
 	bptree->printRange(item, start, end);	
-	cout << "===========================\n";
-	flog << "===========================\n";
+	flog << "===========================\n\n";
 	return true;
 }
 
 void Manager::printErrorCode(int n) {				//ERROR CODE PRINT
 	flog << "ERROR " << n << endl;
 	flog << "=======================\n\n";
-	cout << "ERROR " << n << endl;
-	cout << "=======================\n\n";
 }
 
 void Manager::printSuccessCode() {//SUCCESS CODE PRINT 
 	flog << "Success\n";
 	flog << "=======================\n\n";
-	cout << "Success\n";
-	cout << "=======================\n\n";
 }
 

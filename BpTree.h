@@ -17,7 +17,7 @@ public:
 		this->order = order;
 		this->flog = flog;
 	}
-	~BpTree();
+	~BpTree() { }
 	/* essential */
 	bool		Insert(int key, set<string> set);
 
@@ -27,7 +27,7 @@ public:
 	void		splitIndexNode(BpTreeNode* pIndexNode);
 	
 	BpTreeNode* getRoot() { return root; }
-	BpTreeDataNode* searchDataNode(int n);
+	BpTreeNode* searchDataNode(int n);
 
 	void	printFrequentPatterns(set<string> pFrequentPattern);
 	bool	printFrequency(string item, int min_frequency);
