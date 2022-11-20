@@ -162,7 +162,7 @@ bool Manager::PRINT_FPTREE() {
 
 bool Manager::PRINT_BPTREE(string item, int min_frequency) {
 	flog << "========PRINT_BPTREE=========\n";
-	if (0) {
+	if (!bptree || !bptree->getRoot()) {
 		printErrorCode(500);
 		return false;
 	}
@@ -174,7 +174,7 @@ bool Manager::PRINT_BPTREE(string item, int min_frequency) {
 
 bool Manager::PRINT_CONFIDENCE(string item, double rate) {
 	flog << "========PRINT_CONFIDENCE========\n";
-	if (0) {
+	if (!bptree || !bptree->getRoot()) {
 		printErrorCode(600);
 		return false;
 	}
@@ -187,7 +187,7 @@ bool Manager::PRINT_CONFIDENCE(string item, double rate) {
 
 bool Manager::PRINT_RANGE(string item, int start, int end) {
 	flog << "========PRINT_RANGE========\n";
-	if (0) {
+	if (!bptree || !bptree->getRoot()) {
 		printErrorCode(700);
 		return false;
 	}
